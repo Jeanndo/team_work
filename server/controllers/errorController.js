@@ -33,7 +33,7 @@ const handleCastErrorDB = (error) => {
 
 const handleValidationErrorDB = (error) => {
   const errors = Object.values(error.errors).map((el) => el.message);
-  const message = `Invalid input. ${errors.join(". ")}`;
+  const message = `Invalid input. ${errors.join(".")}`;
   return new AppError(400, message);
 };
 

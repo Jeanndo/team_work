@@ -17,6 +17,8 @@ app.get('/', (req,res)=>{res.status(200).send({
     message:'welcome to patiente registration',
 })})
 
+
+
 app.use("/api/v1/users",userRouter)
 
 app.all('*',(req,res,next)=>{
