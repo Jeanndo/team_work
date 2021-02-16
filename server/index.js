@@ -1,9 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import compression from "compression"
-import employeeRouter from "./routes/employeeRoutes"
+import userRouter from "./routes/userRoutes"
 import AppError from './utils/appError';
-import dotenv from 'dotenv'
 import * as globalErrorHandler from './controllers/errorController'
 const app = express();
 
@@ -18,7 +17,7 @@ app.get('/', (req,res)=>{res.status(200).send({
     message:'welcome to patiente registration',
 })})
 
-app.use("/api/v1/employee",employeeRouter)
+app.use("/api/v1/users",userRouter)
 
 app.all('*',(req,res,next)=>{
 
