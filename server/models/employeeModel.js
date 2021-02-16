@@ -5,10 +5,14 @@ import bcrypt from 'bcryptjs'
 
 const employeeSchema = new mongoose.Schema({
 
-    name:{
+    firstName:{
         type:String,
-        required:[true,'Your Name Please'],
-        unique:true
+        required:[true,'Your firstName Please'],
+        
+    },
+    lastName:{
+        type:String,
+        required:[true,'Your lastName Please']
     },
     email:{
         type:String,
@@ -34,8 +38,25 @@ const employeeSchema = new mongoose.Schema({
      },
      message:'password not matching'
     }  
+   },
+   gender:{
+       type:String,
+       required:[true,'gender Please!']
+   },
+   jobRole:{
+    type:String,
+    required:[true,'Your Role Please!']
+   },
+   department:{
+       type:String,
+       required:[true,'Your Department Please!']
+   },
+   address:{
+       type:String,
+       required:[true,'Your Address Please!']
    }
-})
+
+   })
 
 employeeSchema.pre('save', async function(next){
 
