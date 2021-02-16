@@ -12,6 +12,10 @@ const articleSchema = new mongoose.Schema({
         type:String,
         required:[true,'Article Description is required'],
         maxlength:100
+    },
+    authorName:{
+        type:String,
+        required:[true,'Author Name please!']
     }
 })
 
