@@ -16,7 +16,24 @@ const articleSchema = new mongoose.Schema({
     authorName:{
         type:String,
         required:[true,'Author Name please!']
+    },
+    authorId:{
+       type:String,
+       required:[true,'Author Id please!']
+
+    },
+    comments:{
+        type:Array
+    },
+     
+    createdOn:{
+         type:Date,
+         default:Date.now
     }
+    
+        
+
+
 })
 
 const Article = mongoose.model('Article',articleSchema);
