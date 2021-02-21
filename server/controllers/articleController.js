@@ -7,9 +7,12 @@ export const createArticle = catchAsync(async (req,res,next)=>{
 
   const newArticle = await Article.create(req.body);
 
+
   res.status(201).json({
       status:'success',
+      message:'article successfully created',
       data:{
+        
           newArticle
       }
   })
@@ -17,14 +20,19 @@ export const createArticle = catchAsync(async (req,res,next)=>{
  
 export const getAllArticles = catchAsync(async (req,res,next)=>{
 
-  const articles = await Article.find();
+  const articles = await Article.find({}).sort({
+     createdOn:-1
+  }
+
+  )
+  
 
   res.status(200).json({
     status:'success',
     data:{
       articles
     }
-  })
+  });
 })
 
 
@@ -47,6 +55,7 @@ export const deleteArticle =  catchAsync(async (req,res,next)=>{
 
   res.status(200).json({
       status:'success',
+      message:'article successfully deleted',
       data:{}
     })
 })
@@ -59,6 +68,7 @@ export const updateArticle = catchAsync(async (req,res,next)=>{
     })
     res.status(200).json({
         success:true,
+        message:'article successfully edited',
         data: article
     })
 
