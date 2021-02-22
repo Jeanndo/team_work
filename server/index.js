@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import compression from "compression"
 import userRouter from "./routes/userRoutes"
 import AppError from './utils/appError';
+import commentRouter from "./routes/commentRoutes"
 import * as globalErrorHandler from './controllers/errorController'
 const app = express();
 
@@ -20,6 +21,8 @@ app.get('/', (req,res)=>{res.status(200).send({
 
 
 app.use("/api/v1/users",userRouter)
+app.use("/api/v1/comments",commentRouter)
+
 
 app.all('*',(req,res,next)=>{
 
