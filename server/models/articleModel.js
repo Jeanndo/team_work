@@ -22,9 +22,6 @@ const articleSchema = new mongoose.Schema({
        required:[true,'Author Id please!']
 
     },
-    comments:{
-        type:Array
-    },
      
     createdOn:{
          type:Date,
