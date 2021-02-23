@@ -14,7 +14,7 @@ app.use(compression())
 
 app.get('/', (req,res)=>{res.status(200).send({
     status:200,
-    message:'welcome to patiente registration',
+    message:'welcome to teanwork',
 })})
 
 
@@ -22,14 +22,6 @@ app.get('/', (req,res)=>{res.status(200).send({
 app.use("/api/v1/users",userRouter)
 
 app.all('*',(req,res,next)=>{
-
-//   res.status(404).json({
-//      status:'fail',
-//      message:`can't find ${req.originalUrl} on this server` 
-//   })  
-// const err = new Error (`can't find ${req.originalUrl} on this server` )
-// err.status = 'fail';
-// err.statusCode = 404;
 
 next(new AppError(`can't find ${req.originalUrl} on this server`,404)) 
 })
