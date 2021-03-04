@@ -27,10 +27,18 @@ const articleSchema = new mongoose.Schema({
          type:Date,
          default:Date.now
     }
-    
-        
 
 
+
+})
+articleSchema.pre("find",function (next){
+    this.populate({
+        path:"articleId",
+        select:" articleTitle articleDescription authorName authorId",
+    }).populate({
+        path:"commentId",
+    });
+    next();
 })
 
 const Article = mongoose.model('Article',articleSchema);
