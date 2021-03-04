@@ -39,15 +39,15 @@ export const getArticle = catchAsync(async (req,res,next)=>{
 
   const article= await Article.findById(req.params.id)
   let comment=await Comment.find();
-  const myComment =comment.filter(el=>{
+  /*const myComment =comment.filter(el=>{
     return el.articleId===req.params.id
-  })
+  })*/
 
   res.status(200).json({
       status:'success',
       data:{
           article,
-          myComment
+          comment
       }
     })
 })
