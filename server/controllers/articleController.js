@@ -1,90 +1,19 @@
-
-// import Article from '../models/articleModel';
-// import catchAsync from '../utils/catchAsync';
-// import Comment from '../models/commentModel'
-
-
-// export const createArticle = catchAsync(async (req,res,next)=>{
-
-//   const newArticle = await Article.create(req.body);
-
-//   req.requestTime  =new Date().toISOString();
-
-//   res.status(201).json({
-//       status:'success',
-//     createdOn:req.requestTime,
-//       data:{
-//           newArticle
-//       }
-//   })
-// })
- 
-// export const getAllArticles = catchAsync(async (req,res,next)=>{
-
-// req.requestTime  =new Date().toISOString();
-  
-//   const articles = await Article.find();
-
-//   res.status(200).json({
-//     status:'success',
-//     data:{
-//       articles
-//     }
-//   })
-// })
-
-
-// export const getArticle = catchAsync(async (req,res,next)=>{
-
-//   const article= await Article.findById(req.params.id)
-//   let comment = await Comment.find();
- 
-//     const myComment =  comment.filter(el=>{
-//       return el.articleID ===req.params.id
-//     })
-  
-//   res.status(200).json({
-//       status:'success',
-//       data:{
-//           article
-//            myComment
-           
-//       }
-//     })
-// })
-
-
-// export const deleteArticle =  catchAsync(async (req,res,next)=>{
-
-//  await Article.findByIdAndDelete(req.params.id)
-
-//   res.status(200).json({
-//       status:'success',
-//       data:{}
-//     })
-// })
-
-// export const updateArticle = catchAsync(async (req,res,next)=>{
-
-//     const article=await Article.findByIdAndUpdate(req.params.id,req.body,{
-//         new:true,
-//         runValidator:true
-//     })
-//     res.status(200).json({
-//         success:true,
-//         data: article
-//     })
-
-// })
-
-
 import Article from '../models/articleModel';
+import AppError from '../utils/appError';
 import catchAsync from '../utils/catchAsync';
+import Comment from '../models/commentModel'
 
 
 export const createArticle = catchAsync(async (req,res,next)=>{
 
-  const newArticle = await Article.create(req.body);
+  const newArticle = await Article.create({
+    
+    articleTitle : req.body.articleTitle,
+    article: req.body.article,
+    authorName : req.body.authorName,
+    authorID : req.user.id,
+    
+  });
 
   res.status(201).json({
       status:'success',
@@ -94,6 +23,7 @@ export const createArticle = catchAsync(async (req,res,next)=>{
   })
 })
  
+
 export const getAllArticles = catchAsync(async (req,res,next)=>{
 
   const articles = await Article.find();
@@ -107,26 +37,38 @@ export const getAllArticles = catchAsync(async (req,res,next)=>{
 })
 
 
+
 export const getArticle = catchAsync(async (req,res,next)=>{
 
-  const article= await Article.findById(req.params.id)
+  const comments = await Comment.find({articleID:req.params.id})
+  const article = await Article.findById(req.params.id).select('+comments')
+
+if(!article){
+  return next(new AppError('No Article found with that ID',404))
+}
 
   res.status(200).json({
       status:'success',
       data:{
-          article
-      }
+          article,
+          comments
+      } 
+     
     })
 })
 
-
 export const deleteArticle =  catchAsync(async (req,res,next)=>{
-
+  const comments = await Comment.deleteMany({articleID:req.params.id})
   const article = await Article.findByIdAndDelete(req.params.id)
 
-  res.status(200).json({
+  if(!article){
+    return next(new AppError('No Article found with that ID',404))
+  }
+
+  res.status(204).json({
       status:'success',
-      data:{}
+      data:{},
+      comments
     })
 })
 
@@ -136,6 +78,11 @@ export const updateArticle = catchAsync(async (req,res,next)=>{
         new:true,
         runValidator:true
     })
+
+    if(!article){
+      return next(new AppError('No Article found with that ID',404))
+    }
+
     res.status(200).json({
         success:true,
         data: article

@@ -1,22 +1,21 @@
 
 import mongoose from 'mongoose'
 
-
-
 const articleSchema = new mongoose.Schema({
     articleTitle:{
-        type:String,
-        required:[true,'Article Title is required']
+        type:String  
     },
-    articleDescription:{
+    article:{
         type:String,
-        required:[true,'Article Description is required'],
         maxlength:100
     },
     authorName:{
-        type:String,
-        required:[true,'Author Name please!']
+        type:String   
+    },
+    authorID:{
+        type:String
     }
+   
 })
 
 const Article = mongoose.model('Article',articleSchema);
